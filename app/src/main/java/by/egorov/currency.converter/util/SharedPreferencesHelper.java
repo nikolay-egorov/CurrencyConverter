@@ -3,6 +3,7 @@ package by.egorov.currency.converter.util;
 import android.content.SharedPreferences;
 
 import by.egorov.currency.converter.controller.ConverterActivity;
+import by.egorov.currency.converter.controller.MainActivity;
 import by.egorov.currency.converter.model.Cache;
 
 
@@ -12,7 +13,7 @@ public class SharedPreferencesHelper {
 
 
     public static SharedPreferences getSharedPreferences() {
-        return ConverterActivity.getSharedPreferences();
+        return MainActivity.getSharedPreferences();
     }
 
 

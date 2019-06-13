@@ -11,6 +11,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.Loader;
@@ -139,7 +140,7 @@ public class ConverterFragment extends Fragment {
         mNameFromSpinner = (AppCompatSpinner) v.findViewById(R.id.fc_sp_name_from);
         mNameToSpinner = (AppCompatSpinner) v.findViewById(R.id.fc_sp_name_to);
         mValueToTextView = (TextView) v.findViewById(R.id.fc_tv_value_to);
-        mOperationHistory = (ListView) v.findViewById(R.id.fc_operation_history);
+//        mOperationHistory = (ListView) v.findViewById(R.id.fc_operation_history);
 
     }
 
@@ -218,8 +219,8 @@ public class ConverterFragment extends Fragment {
 
         mNameFromSpinner.setAdapter(adapter);
         mNameToSpinner.setAdapter(adapter);
-        customListViewAdapter = new CustomListViewAdapter(getActivity(),operationHistoryArray);
-        mOperationHistory.setAdapter(customListViewAdapter);
+//        customListViewAdapter = new CustomListViewAdapter(getActivity(),operationHistoryArray);
+//        mOperationHistory.setAdapter(customListViewAdapter);
     }
 
     private List<String> getFormatNames(CurrencyMarket currencyMarket) {
@@ -241,9 +242,7 @@ public class ConverterFragment extends Fragment {
     }
 
 
-    /*
-    TODO: update a list with click
-     */
+
     private HistoryItem getOperationBean(String ValueFrom, String ValueTo){
 
         List<Currency> currencies = mCurrencyMarket.getCurrencies();
@@ -254,12 +253,12 @@ public class ConverterFragment extends Fragment {
     }
 
 
-    private void saveHistoryToCache(){
+    private void saveHistoryToCache(HistoryItem lastOperation){
         Cache cache = Cache.get();
         if(cache.getCachedHistory().size() >= 10){
             cache.getCachedHistory().removeFromEnd(1);
         }
-        cache.getCachedHistory().addLast((HistoryItem) operationHistoryArray.getLast());
+        cache.getCachedHistory().addLast(lastOperation);
         SharedPreferencesHelper.saveCache(cache);
     }
 
@@ -381,14 +380,20 @@ public class ConverterFragment extends Fragment {
             List<Currency> currencies = mCurrencyMarket.getCurrencies();
             Currency currencyFrom = currencies.get(mNameFromSpinner.getSelectedItemPosition());
             HistoryItem history_item = getOperationBean(mValueFromEditText.getText().toString()+' '+currencyFrom.getCharCode(),mValueToTextView.getText().toString());
-            if(operationHistoryArray.size()>=4){
-                operationHistoryArray.removeFromEnd(1);
-            }
+//            if(operationHistoryArray.size()>=4){
+//                operationHistoryArray.removeFromEnd(1);
+//            }
 //            else if (!history_item.equals(operationHistoryArray.getLast()))
-            operationHistoryArray.addFirst(history_item);
-            saveHistoryToCache();
-            customListViewAdapter.notifyDataSetChanged();
+//            operationHistoryArray.addFirst(history_item);
+            saveHistoryToCache(history_item);
+//            customListViewAdapter.notifyDataSetChanged();
+            final FragmentActivity fragmentBelongActivity = getActivity();
 
+            FragmentManager fm = fragmentBelongActivity.getSupportFragmentManager();
+
+            //TODO: fix error
+            HistoryFragment historyFragment = (HistoryFragment) fm.findFragmentByTag("dsf");
+            historyFragment.updateListViewData();
         }
     }
 
@@ -419,6 +424,8 @@ public class ConverterFragment extends Fragment {
     }
 
 
+
+
     private class DatePickerDialogListener implements DatePickerDialog.OnDateSetListener{
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -426,23 +433,13 @@ public class ConverterFragment extends Fragment {
             Log.d(TAG, "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
             // dd.MM.yyyy
              String date = month + "/" + day + "/" + year;
-//            String date = day + "." + month + "." + year;
 
-//            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-//            SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-//            SimpleDateFormat format2 = new SimpleDateFormat("dd.MM.yyyy");
+
             Calendar calendar = Calendar.getInstance();
             calendar.set(year, month, day);
             targetDate = calendar.getTime();
             mCurrencyMarket.setDate(targetDate);
-//            try{
-//                mCurrencyMarket.setDate(format.parse(date));
-//
-//            }
 
-//            catch (ParseException e) {
-//                e.printStackTrace();
-//            }
 
         }
     }

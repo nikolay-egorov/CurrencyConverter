@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
 
-    tools:context="by.egorov.currency.converter.controller.ConverterActivity">
+    tools:context="by.egorov.currency.converter.controller.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -94,21 +94,7 @@
 
 
 
-        <TextView
-            android:id="@+id/fc_history_subhead"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textStyle="italic"
-            android:text="@string/currency_exchange_history" />
 
-        <ListView
-            android:id="@+id/fc_operation_history"
-            android:layout_width="match_parent"
-            android:layout_height="426dp"
-            android:gravity="center_horizontal"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
     </LinearLayout>
 
     <ProgressBar
