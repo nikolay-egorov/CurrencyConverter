@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/ivFlag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+
+        />
+
+    <TextView xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/text1"
+        style="@style/SpinnerItemAppTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/ivFlag"
+        android:layout_toRightOf="@+id/ivFlag"
+        android:ellipsize="marquee"
+        tools:text="Доллар США USD (840)" />
+</RelativeLayout><!--android:id="@android:id/text1"-->

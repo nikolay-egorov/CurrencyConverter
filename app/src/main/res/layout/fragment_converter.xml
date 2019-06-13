@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fv_cl_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+
+    tools:context="by.egorov.currency.converter.controller.ConverterActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/fc_til_value_from"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/fc_tiet_value_from"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/currency_from_hint"
+                android:inputType="numberDecimal"
+                tools:text="2000" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:text="@string/currency_from" />
+
+            <Spinner
+                android:id="@+id/fc_sp_name_from"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="Российский рубль RUB (643)" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:text="@string/currency_to" />
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/fc_sp_name_to"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="Доллар США USD (840)" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/fc_btn_convert"
+            style="@style/ImageButtonAppTheme"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:src="@drawable/btn_calc" />
+
+        <TextView
+            android:id="@+id/fc_tv_source_and_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            tools:text="Курс ЦБ РФ на 06.06.2019" />
+
+        <TextView
+            android:id="@+id/fc_tv_value_to"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            tools:text="1000" />
+
+
+
+        <TextView
+            android:id="@+id/fc_history_subhead"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textStyle="italic"
+            android:text="@string/currency_exchange_history" />
+
+        <ListView
+            android:id="@+id/fc_operation_history"
+            android:layout_width="match_parent"
+            android:layout_height="426dp"
+            android:gravity="center_horizontal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/fc_pb_data_update"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:visibility="gone" />
+
+
+</android.support.design.widget.CoordinatorLayout>

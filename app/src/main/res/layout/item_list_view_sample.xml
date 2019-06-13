@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="7dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:text="@string/currency_from" />
+
+        <TextView
+            android:id="@+id/oper_sum_from"
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:textStyle="normal"
+            />
+        <include
+            android:id="@+id/oper_info_from"
+            layout="@layout/item_spinner_simple"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:text="@string/currency_to" />
+
+        <TextView
+            android:id="@+id/oper_sum_to"
+            android:layout_width="75dp"
+            android:layout_height="match_parent"
+            android:textStyle="normal"
+            />
+        <include
+            android:id="@+id/oper_info_to"
+            layout="@layout/item_spinner_simple"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/oper_info_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        tools:text="Курс ЦБ РФ на 06.06.2019" />
+
+
+</LinearLayout>
