@@ -2,18 +2,17 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="7dp">
-<LinearLayout
-    android:id="@+id/fc_history_fragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="top|center"
     android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:padding="7dp">
 
+    <LinearLayout
+        android:id="@+id/fc_history_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:orientation="vertical">
 
 
         <TextView
@@ -21,14 +20,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
+            android:text="@string/currency_exchange_history"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textStyle="italic"
-            android:text="@string/currency_exchange_history" />
+            android:textStyle="italic" />
 
         <ListView
             android:id="@+id/fc_operation_history"
             android:layout_width="match_parent"
-            android:layout_height="426dp"
+            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 

@@ -12,17 +12,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import by.egorov.currency.converter.R;
 import by.egorov.currency.converter.model.HistoryItem;
 
-public class CustomListViewAdapter extends ArrayAdapter<HistoryItem> {
+public class HistoryViewAdapter extends ArrayAdapter<HistoryItem> {
 
     CircularArray<HistoryItem> listObjects;
     Context mContext;
 
-    public CustomListViewAdapter(@NonNull Context context, @NonNull CircularArray objects) {
+    public HistoryViewAdapter(@NonNull Context context, @NonNull CircularArray objects) {
         super(context, R.layout.item_list_view_sample);
         this.listObjects = objects;
         this.mContext = context;
@@ -43,7 +41,7 @@ public class CustomListViewAdapter extends ArrayAdapter<HistoryItem> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        CustomListViewAdapter.ViewHolder mViewHolder = new CustomListViewAdapter.ViewHolder();
+        HistoryViewAdapter.ViewHolder mViewHolder = new HistoryViewAdapter.ViewHolder();
         if (convertView == null) {
             LayoutInflater mInflater = (LayoutInflater) mContext.
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -60,7 +58,7 @@ public class CustomListViewAdapter extends ArrayAdapter<HistoryItem> {
             mViewHolder.mCurrTo = (TextView) view.findViewById(R.id.text1 );
             convertView.setTag(mViewHolder);
         } else {
-            mViewHolder = (CustomListViewAdapter.ViewHolder) convertView.getTag();
+            mViewHolder = (HistoryViewAdapter.ViewHolder) convertView.getTag();
         }
 
         mViewHolder.mSumFrom.setText(listObjects.get(position).getValueFrom());

@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -30,7 +29,6 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,8 +37,8 @@ import java.util.List;
 import java.util.Locale;
 
 import by.egorov.currency.converter.R;
-import by.egorov.currency.converter.controller.adapters.CustomListViewAdapter;
-import by.egorov.currency.converter.controller.adapters.CustomSpinnerAdapter;
+import by.egorov.currency.converter.controller.adapters.HistoryViewAdapter;
+import by.egorov.currency.converter.controller.adapters.CurrencySpinnerAdapter;
 import by.egorov.currency.converter.model.Cache;
 import by.egorov.currency.converter.model.Currency;
 import by.egorov.currency.converter.model.CurrencyMarket;
@@ -58,7 +56,7 @@ public class ConverterFragment extends Fragment {
 
     private CurrencyMarket mCurrencyMarket;
 
-    private CoordinatorLayout mMainCoordinatorLayout;
+    private LinearLayout mMainCoordinatorLayout;
     private TextInputLayout mValueFromLayout;
     private TextInputEditText mValueFromEditText;
     private AppCompatSpinner mNameFromSpinner;
@@ -67,9 +65,6 @@ public class ConverterFragment extends Fragment {
     private ProgressBar mLoadProgressBar;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
-    private ListView mOperationHistory;
-    private CustomListViewAdapter customListViewAdapter;
-    private CircularArray operationHistoryArray;
 
     private Date targetDate;
 
@@ -77,6 +72,7 @@ public class ConverterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_converter, container, false);
+        v.setBackgroundColor(Color.WHITE);
         findViews(v);
 
         mValueFromEditText.addTextChangedListener(new ValueFromTextWatcher());
@@ -95,13 +91,13 @@ public class ConverterFragment extends Fragment {
         LoaderManager lm = getActivity().getSupportLoaderManager();
         Loader loader = lm.getLoader(R.id.file_loader_id);
         if (loader == null) {
-            loadCurrencyMarket(false,null);
+            loadCurrencyMarket(false, null);
         }
 
         String cacheDirPath = getContext().getExternalCacheDir().getPath();
         File marketFile = new File(cacheDirPath, Constants.MARKET_FILE_NAME);
         mCurrencyMarket = getCurrencyMarketFromFile(marketFile);
-        operationHistoryArray = loadOperationHistory();
+
         fillSpinners();
     }
 
@@ -133,7 +129,7 @@ public class ConverterFragment extends Fragment {
     }
 
     private void findViews(View v) {
-        mMainCoordinatorLayout = (CoordinatorLayout) v.findViewById(R.id.fv_cl_container);
+        mMainCoordinatorLayout = (LinearLayout) v.findViewById(R.id.fv_cl_container);
         mLoadProgressBar = (ProgressBar) v.findViewById(R.id.fc_pb_data_update);
         mValueFromLayout = (TextInputLayout) v.findViewById(R.id.fc_til_value_from);
         mValueFromEditText = (TextInputEditText) v.findViewById(R.id.fc_tiet_value_from);
@@ -144,7 +140,7 @@ public class ConverterFragment extends Fragment {
 
     }
 
-    private void loadCurrencyMarket(boolean restart,Date date) {
+    private void loadCurrencyMarket(boolean restart, Date date) {
         mLoadProgressBar.setVisibility(View.VISIBLE);
         LoaderManager lm = getActivity().getSupportLoaderManager();
         Bundle args;
@@ -152,8 +148,8 @@ public class ConverterFragment extends Fragment {
             args = FileLoader.getBundle(Constants.DATA_URL);
         else {
             Log.d(TAG, date.toString());
-            String add = (String) android.text.format.DateFormat.format("dd/MM/yyyy",date);
-            args = FileLoader.getBundle(Constants.DATA_FLOAT_URL+add);
+            String add = (String) android.text.format.DateFormat.format("dd/MM/yyyy", date);
+            args = FileLoader.getBundle(Constants.DATA_FLOAT_URL + add);
         }
         LoaderCallbacks<File> callbacks = new FileCallbacks();
         if (restart) {
@@ -214,13 +210,11 @@ public class ConverterFragment extends Fragment {
         String[] im = new String[images.size()];
         images.toArray(im);
 //        SpinnerAdapter adapter = new ArrayAdapter(getActivity(), R.layout.item_spinner_simple, names);
-        SpinnerAdapter adapter = new CustomSpinnerAdapter(getActivity(), n, im);
+        SpinnerAdapter adapter = new CurrencySpinnerAdapter(getActivity(), names, images);
 
 
         mNameFromSpinner.setAdapter(adapter);
         mNameToSpinner.setAdapter(adapter);
-//        customListViewAdapter = new CustomListViewAdapter(getActivity(),operationHistoryArray);
-//        mOperationHistory.setAdapter(customListViewAdapter);
     }
 
     private List<String> getFormatNames(CurrencyMarket currencyMarket) {
@@ -233,7 +227,7 @@ public class ConverterFragment extends Fragment {
     }
 
 
-    private List<String> getFormatImages(CurrencyMarket currencyMarket){
+    private List<String> getFormatImages(CurrencyMarket currencyMarket) {
         List<String> nameList = new ArrayList<>(currencyMarket.getCurrencies().size());
         for (Currency item : currencyMarket.getCurrencies()) {
             nameList.add(item.getNumCode());
@@ -242,38 +236,18 @@ public class ConverterFragment extends Fragment {
     }
 
 
-
-    private HistoryItem getOperationBean(String ValueFrom, String ValueTo){
+    private HistoryItem getOperationBean(String ValueFrom, String ValueTo) {
 
         List<Currency> currencies = mCurrencyMarket.getCurrencies();
         Currency currencyFrom = currencies.get(mNameFromSpinner.getSelectedItemPosition());
         Currency currencyTo = currencies.get(mNameToSpinner.getSelectedItemPosition());
 
-        return new HistoryItem(ValueFrom,ValueTo,currencyFrom,currencyTo, (targetDate == null) ? mCurrencyMarket.getDate() : targetDate );
+        return new HistoryItem(ValueFrom, ValueTo, currencyFrom, currencyTo, (targetDate == null) ? mCurrencyMarket.getDate() : targetDate);
     }
 
+    
 
-    private void saveHistoryToCache(HistoryItem lastOperation){
-        Cache cache = Cache.get();
-        if(cache.getCachedHistory().size() >= 10){
-            cache.getCachedHistory().removeFromEnd(1);
-        }
-        cache.getCachedHistory().addLast(lastOperation);
-        SharedPreferencesHelper.saveCache(cache);
-    }
-
-
-    private CircularArray<HistoryItem> loadOperationHistory(){
-        Cache cache = SharedPreferencesHelper.getCache();
-        if (cache == null)
-            return new CircularArray<HistoryItem>(10);
-        else
-            return cache.getCachedHistory();
-
-    }
-
-
-    private void showDatePicker(){
+    private void showDatePicker() {
         Locale locale = new Locale("ru", "Ru");
         Locale.setDefault(locale);
 
@@ -286,7 +260,7 @@ public class ConverterFragment extends Fragment {
                 getContext(),
                 android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                 mDateSetListener,
-                year,month,day);
+                year, month, day);
         dialog.getDatePicker().setMaxDate(cal.getTimeInMillis());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getButton(dialog.BUTTON_POSITIVE).setText(R.string.ab_pick_date);
@@ -326,6 +300,7 @@ public class ConverterFragment extends Fragment {
                 fillSpinners();
             }
         }
+
         @Override
         public void onLoaderReset(Loader<File> loader) {
         }
@@ -379,21 +354,19 @@ public class ConverterFragment extends Fragment {
 
             List<Currency> currencies = mCurrencyMarket.getCurrencies();
             Currency currencyFrom = currencies.get(mNameFromSpinner.getSelectedItemPosition());
-            HistoryItem history_item = getOperationBean(mValueFromEditText.getText().toString()+' '+currencyFrom.getCharCode(),mValueToTextView.getText().toString());
-//            if(operationHistoryArray.size()>=4){
-//                operationHistoryArray.removeFromEnd(1);
-//            }
-//            else if (!history_item.equals(operationHistoryArray.getLast()))
-//            operationHistoryArray.addFirst(history_item);
-            saveHistoryToCache(history_item);
-//            customListViewAdapter.notifyDataSetChanged();
+            HistoryItem history_item = getOperationBean(mValueFromEditText.getText().toString() + ' ' + currencyFrom.getCharCode(), mValueToTextView.getText().toString());
+
+
+//            historyViewAdapter.notifyDataSetChanged();
+
             final FragmentActivity fragmentBelongActivity = getActivity();
 
             FragmentManager fm = fragmentBelongActivity.getSupportFragmentManager();
 
             //TODO: fix error
-            HistoryFragment historyFragment = (HistoryFragment) fm.findFragmentByTag("dsf");
-            historyFragment.updateListViewData();
+            HistoryFragment historyFragment = (HistoryFragment) fm.findFragmentByTag("second_frag");
+            historyFragment.saveHistoryToCache(history_item);
+//            historyFragment.updateListViewData();
         }
     }
 
@@ -402,7 +375,6 @@ public class ConverterFragment extends Fragment {
         @Override
         public void onClick(View view) {
 
-//            Locale locale = getResources().getConfiguration().locale;
             Locale.setDefault(Locale.GERMAN);
             Calendar cal = Calendar.getInstance();
             int year = cal.get(Calendar.YEAR);
@@ -413,33 +385,29 @@ public class ConverterFragment extends Fragment {
                     getContext(),
                     android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                     mDateSetListener,
-                    year,month,day);
+                    year, month, day);
             dialog.getDatePicker().setMaxDate(cal.getTimeInMillis());
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.show();
-
 
         }
 
     }
 
 
-
-
-    private class DatePickerDialogListener implements DatePickerDialog.OnDateSetListener{
+    private class DatePickerDialogListener implements DatePickerDialog.OnDateSetListener {
         @Override
         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
             month = month + 1;
             Log.d(TAG, "onDateSet: mm/dd/yyy: " + month + "/" + day + "/" + year);
             // dd.MM.yyyy
-             String date = month + "/" + day + "/" + year;
+            String date = month + "/" + day + "/" + year;
 
 
             Calendar calendar = Calendar.getInstance();
             calendar.set(year, month, day);
             targetDate = calendar.getTime();
             mCurrencyMarket.setDate(targetDate);
-
 
         }
     }

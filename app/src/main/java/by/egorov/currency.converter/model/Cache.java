@@ -49,7 +49,7 @@ public class Cache {
         return new Gson().fromJson(json, type);
     }
 
-    public void update() {
+    public  void update() {
         SharedPreferencesHelper.saveCache(this);
     }
 }

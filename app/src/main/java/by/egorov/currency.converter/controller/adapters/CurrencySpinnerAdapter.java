@@ -11,15 +11,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import by.egorov.currency.converter.R;
 
-public class CustomSpinnerAdapter extends ArrayAdapter<String> {
+public class CurrencySpinnerAdapter extends ArrayAdapter<String> {
 
-    String[] spinnerTitles;
-    String[] spinnerImages;
+    List<String> spinnerTitles;
+    List<String> spinnerImages;
     Context mContext;
 
-    public CustomSpinnerAdapter(@NonNull Context context, String[] titles, String[] images) {
+    public CurrencySpinnerAdapter(@NonNull Context context, List<String> titles, List<String> images) {
         super(context, R.layout.item_spinner_simple);
         this.spinnerTitles = titles;
         this.spinnerImages = images;
@@ -33,7 +35,7 @@ public class CustomSpinnerAdapter extends ArrayAdapter<String> {
 
     @Override
     public int getCount() {
-        return spinnerTitles.length;
+        return spinnerTitles.size();
     }
 
     @NonNull
@@ -52,12 +54,12 @@ public class CustomSpinnerAdapter extends ArrayAdapter<String> {
         }
 
 
-        int resId = this.mContext.getResources().getIdentifier("i" + spinnerImages[position], "drawable", "by.egorov.currency.converter");
+        int resId = this.mContext.getResources().getIdentifier("i" + spinnerImages.get(position), "drawable", "by.egorov.currency.converter");
         Drawable myDrawable = this.mContext.getResources().getDrawable(resId);
 //        int resId= this.mContext.getResources().getIdentifier("android.resource://by.egorov.currency.converter." +"R.drawable.i"+spinnerImages[position],null,null);
 
         mViewHolder.mFlag.setImageDrawable(myDrawable);
-        mViewHolder.mName.setText(spinnerTitles[position]);
+        mViewHolder.mName.setText(spinnerTitles.get(position));
         return convertView;
     }
 

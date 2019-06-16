@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
+        setContentView(R.layout.activity_fragments);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         HistoryFragment historyFragment = new HistoryFragment();
-        fm.beginTransaction().add(R.id.fragment_container, historyFragment,historyFragment.getTag() ).commit();
+        fm.beginTransaction().add(R.id.fragment_container, historyFragment, "second_frag" ).commit();
 
         sharedPreferences = getSharedPreferences(DEFAULT_PREFERENCES, Context.MODE_PRIVATE);
 

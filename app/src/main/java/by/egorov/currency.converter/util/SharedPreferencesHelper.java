@@ -47,7 +47,8 @@ public class SharedPreferencesHelper {
         SharedPreferences.Editor prefEditor = sharedPreferences.edit();
         prefEditor.putString(prefKey, value);
         // consider switching to apply()
-        prefEditor.apply();
+        prefEditor.commit();
+
     }
 
     private static void saveBoolean(String prefKey, boolean value) {
