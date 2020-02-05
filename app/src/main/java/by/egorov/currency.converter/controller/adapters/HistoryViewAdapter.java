@@ -67,13 +67,13 @@ public class HistoryViewAdapter extends ArrayAdapter<HistoryItem> {
         Drawable flagDrawable = this.mContext.getResources().getDrawable(res);
 
         mViewHolder.mFlagFrom.setImageDrawable(flagDrawable);
-        mViewHolder.mCurrFrom.setText(listObjects.get(position).getCurrFrom().getFormatedName());
+        mViewHolder.mCurrFrom.setText(listObjects.get(position).getCurrFrom().getName());
 
         mViewHolder.mSumTo.setText(listObjects.get(position).getValueTo());
         res = this.mContext.getResources().getIdentifier("i"+listObjects.get(position).getCurrTo().getNumCode(), "drawable", "by.egorov.currency.converter");
         flagDrawable = this.mContext.getResources().getDrawable(res);
         mViewHolder.mFlagTo.setImageDrawable(flagDrawable);
-        mViewHolder.mCurrTo.setText(listObjects.get(position).getCurrTo().getFormatedName());
+        mViewHolder.mCurrTo.setText(listObjects.get(position).getCurrTo().getName());
 
         mViewHolder.mDate.setText(String.format(this.mContext.getString(R.string.source_and_date_format),
                 listObjects.get(position).getDate() ));

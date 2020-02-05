@@ -25,14 +25,12 @@ public class MainActivity extends AppCompatActivity {
         if (fragment == null) {
             fragment = new ConverterFragment();
             fm.beginTransaction().add(R.id.fragment_container, fragment, fragment.getTag() ).commit();
-
         }
 
         HistoryFragment historyFragment = new HistoryFragment();
         fm.beginTransaction().add(R.id.fragment_container, historyFragment, "second_frag" ).commit();
 
         sharedPreferences = getSharedPreferences(DEFAULT_PREFERENCES, Context.MODE_PRIVATE);
-
 
     }
 
@@ -41,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
         return sharedPreferences;
     }
 
-    public static SharedPreferences.Editor getSharedPreferencesEditor() {
-        return sharedPreferences.edit();
-    }
+//    public static SharedPreferences.Editor getSharedPreferencesEditor() {
+//        return sharedPreferences.edit();
+//    }
 
 
 }

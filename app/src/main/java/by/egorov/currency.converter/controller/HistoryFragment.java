@@ -28,7 +28,6 @@ public class HistoryFragment extends Fragment {
     private Context mContext;
 
 
-    // Initialise it from onAttach()
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -40,7 +39,7 @@ public class HistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_history, container, false);
 
-        findViews(v);
+        mOperationHistory = (ListView) v.findViewById(R.id.fc_operation_history);
         operationHistoryArray = loadOperationHistory();
         return v;
     }
@@ -56,7 +55,7 @@ public class HistoryFragment extends Fragment {
 
 
 
-    private void findViews(View v) {
+    private void findView(View v) {
         mOperationHistory = (ListView) v.findViewById(R.id.fc_operation_history);
 
     }
@@ -89,12 +88,6 @@ public class HistoryFragment extends Fragment {
         historyViewAdapter.notifyDataSetChanged();
         cache.update();
     }
-
-
-
-
-
-
 
 
 }

@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Конвертер</string>
+    <string name="ab_update_exchange_rates">Обновить</string>
+    <string name="ab_pick_date">Выбрать Дату</string>
+    <string name="spinner_currency_name_format">%1$s %2$s (%3$s)</string>
+    <string name="source_and_date_format">Курс ЦБ РФ на %1$te.%1$tm.%1$tY</string>
+
+    <string name="currency_from_hint">Сумма конвертации</string>
+    <string name="currency_from">Из</string>
+    <string name="currency_to">В</string>
+    <string name="currency_exchange_history">История Операций</string>
+
+    <string name="msg_exchange_rates_updated">Курсы валют обновлены</string>
+    <string name="msg_exchange_date_updated">Целевая дата установлена на состояние курса от %1$te.%1$tm.%1$tY</string>
+
+    <string name="error_currency_from_empty">Введите сумму конвертации</string>
+    <string name="error_currency_updating">Ошибка обновления курсов</string>
+
+
+
+</resources>

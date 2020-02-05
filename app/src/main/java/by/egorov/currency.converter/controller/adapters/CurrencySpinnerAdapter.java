@@ -55,10 +55,10 @@ public class CurrencySpinnerAdapter extends ArrayAdapter<String> {
 
 
         int resId = this.mContext.getResources().getIdentifier("i" + spinnerImages.get(position), "drawable", "by.egorov.currency.converter");
-        Drawable myDrawable = this.mContext.getResources().getDrawable(resId);
-//        int resId= this.mContext.getResources().getIdentifier("android.resource://by.egorov.currency.converter." +"R.drawable.i"+spinnerImages[position],null,null);
+//        Drawable myDrawable = this.mContext.getResources().getDrawable(resId);
 
-        mViewHolder.mFlag.setImageDrawable(myDrawable);
+//        mViewHolder.mFlag.setImageDrawable(myDrawable);
+        mViewHolder.mFlag.setImageResource(resId);
         mViewHolder.mName.setText(spinnerTitles.get(position));
         return convertView;
     }

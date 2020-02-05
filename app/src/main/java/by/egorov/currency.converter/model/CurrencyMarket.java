@@ -19,9 +19,6 @@ public class CurrencyMarket {
     @ElementList(name = "Valute", inline = true)
     private List<Currency> mCurrencies;
 
-//    @ElementList(name = "Image", inline = true)
-//    private List<Image> mImages;
-
     public CurrencyMarket() {
         mCurrencies = new ArrayList<>();
     }

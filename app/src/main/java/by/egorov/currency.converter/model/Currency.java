@@ -92,16 +92,9 @@ public class Currency {
         mValue = value;
     }
 
-    public void setImage(String image) {
-        mImageCode = image;}
     public String getImage() {return mImageCode;}
 
 
-    public String getFormatedName(){
-//        String formatStr = "%1$s %2$s"; //, getCharCode()
-//        return String.format(formatStr, getName() );
-        return getName();
-    }
 
     @Override
     public String toString() {
